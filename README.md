@@ -7,7 +7,7 @@ Click the button to earn points, buy upgrades, unlock auto‑income, and **prest
 ## ✨ Demo
 
 **[Play live on GitHub Pages](https://sammyhapticx.github.io/clickermania)**  
-*(Replace `your-username` with your GitHub username after enabling Pages)*
+
 
 ## 🎮 How to Play
 
