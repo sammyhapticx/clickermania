@@ -1,4 +1,4 @@
-# Button Clicker 🎮
+# Clickermania 🎮
 
 A full-featured **idle clicker game** inspired by Opera GX's Spacebar Clicker, built with HTML, CSS, and JavaScript. [web:9][web:14]
 
@@ -32,7 +32,7 @@ Click the button to earn points, buy upgrades, unlock auto‑income, and **prest
 - ✅ **Tabs** for Click vs Auto upgrades
 - ✅ **Exportable** (single `index.html`)
 
-## 🚀 Deploy on GitHub Pages
+## 🚀 Forking and Deployment on GitHub Pages
 
 1. Fork this repo or create your own
 2. Upload `index.html` to the root
