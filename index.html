@@ -2,1103 +2,422 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Clickermania Prestige Upd 1.1.0</title>
+  <title>Clickermania Prestige Upd</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     body {
-      background: radial-gradient(circle at top, #181a24, #05060a);
-      color: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: stretch;
+      font-family: 'Courier New', monospace;
+      background: linear-gradient(135deg, #0f0f23, #1a1a3a);
+      color: #e0e0ff;
       min-height: 100vh;
-      padding: 16px;
+      overflow-x: hidden;
     }
 
-    .game {
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
       display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(260px, 2fr);
-      gap: 16px;
-      width: 100%;
-      max-width: 1100px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
     }
 
-    @media (max-width: 800px) {
-      .game {
+    @media (max-width: 900px) {
+      .container {
         grid-template-columns: 1fr;
-        grid-auto-rows: auto;
+        padding: 10px;
       }
     }
 
     .panel {
-      background: rgba(12, 14, 24, 0.95);
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-      padding: 16px 18px 18px;
-      backdrop-filter: blur(12px);
+      background: rgba(20, 20, 40, 0.9);
+      border: 2px solid #444;
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
     }
 
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      gap: 8px;
-    }
-
-    h1 {
-      font-size: 22px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: #f9fafb;
-    }
-
-    .stat-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .stat-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #e5e7eb;
-    }
-
-    .stat-label {
-      opacity: 0.72;
-    }
-
-    .stat-value {
-      font-weight: 600;
-      color: #fbbf24;
-    }
-
-    .big-score {
-      font-size: clamp(28px, 5vw, 40px);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #e5e7eb;
-      margin-bottom: 10px;
-      text-shadow: 0 0 16px rgba(248, 250, 252, 0.25);
-    }
-
-    .big-score span {
-      color: #38bdf8;
-    }
-
-    .click-section {
-      display: grid;
-      grid-template-columns: minmax(0, 2.5fr) minmax(0, 1.7fr);
-      gap: 12px;
-      margin-top: 6px;
-    }
-
-    @media (max-width: 800px) {
-      .click-section {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .click-area {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    /* Real CC0 pixel icons via online URLs (CornetPanique86/pixelart-icons) [web:57] */
-    .pixel-frame {
-      position: relative;
-      padding: 12px;
-      border-radius: 8px;
-      background: #020617;
-      border: 2px solid #1f2937;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .pixel-icon {
-      width: 48px;
-      height: 48px;
-      image-rendering: pixelated;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-    }
-
-    .pixel-icon-main {
-      background-image: url("https://cdn.jsdelivr.net/gh/CornetPanique86/pixelart-icons/res/svg/optimized/monitor.svg");
-    }
-
-    .pixel-icon-upgrade {
-      background-image: url("https://cdn.jsdelivr.net/gh/CornetPanique86/pixelart-icons/res/svg/optimized/rocket.svg");
-    }
-
-    .pixel-icon-auto {
-      background-image: url("https://cdn.jsdelivr.net/gh/CornetPanique86/pixelart-icons/res/svg/optimized/robot.svg");
-    }
-
-    .pixel-icon-prestige {
-      width: 32px;
-      height: 32px;
-      background-image: url("https://cdn.jsdelivr.net/gh/CornetPanique86/pixelart-icons/res/svg/optimized/star.svg");
-    }
-
-    .click-button {
-      position: relative;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      border-radius: 6px;
-      padding: 18px 54px;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #e5f2ff;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      box-shadow:
-        0 0 0 1px rgba(34, 197, 94, 0.5),
-        0 10px 0 #14532d,
-        0 18px 30px rgba(22, 163, 74, 0.8);
-      transform: translateY(0);
-      transition:
-        transform 0.08s ease,
-        box-shadow 0.08s ease,
-        background 0.15s ease;
-      user-select: none;
-      image-rendering: pixelated;
-    }
-
-    .click-button::before {
-      content: "";
-      position: absolute;
-      inset: 2px;
-      border-radius: inherit;
-      border: 1px solid rgba(248, 250, 252, 0.25);
-      pointer-events: none;
-    }
-
-    .click-button:active {
-      transform: translateY(4px);
-      box-shadow:
-        0 0 0 1px rgba(34, 197, 94, 0.7),
-        0 4px 0 #14532d,
-        0 10px 16px rgba(22, 163, 74, 0.9);
-      background: linear-gradient(135deg, #16a34a, #15803d);
-    }
-
-    .click-hint {
-      font-size: 13px;
-      opacity: 0.7;
-      color: #e5e7eb;
+    .main-clicker {
+      grid-column: span 2;
       text-align: center;
     }
 
-    .click-hint span {
-      color: #38bdf8;
-      font-weight: 500;
+    @media (max-width: 900px) {
+      .main-clicker {
+        grid-column: span 1;
+      }
     }
 
-    .fx-container {
-      position: relative;
-      width: 100%;
-      height: 160px;
-      margin-top: 10px;
+    .points-display {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px #00ff88;
+    }
+
+    .click-button {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 4px solid #00ff88;
+      background: radial-gradient(circle, #00ff88, #008844);
+      font-size: 1.5em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.1s;
+      box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+      background-image: url('https://cdn.jsdelivr.net/gh/LostInTarot/PixelArt@main/items/coin.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .click-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(0, 255, 136, 0.5);
+    }
+
+    .click-button:active {
+      transform: scale(0.95);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      font-size: 1.2em;
+    }
+
+    .prestige-section {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255, 215, 0, 0.1);
+      border: 2px solid #facc15;
       border-radius: 8px;
-      border: 2px solid #020617;
-      background:
-        linear-gradient(#020617 0, #020617 2px, transparent 2px, transparent 4px),
-        linear-gradient(90deg, #020617 0, #020617 2px, transparent 2px, transparent 4px),
-        radial-gradient(circle at top, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.97));
-      background-size: 4px 4px, 4px 4px, 100% 100%;
-      overflow: hidden;
-      image-rendering: pixelated;
-    }
-
-    .fx-click {
-      position: absolute;
-      pointer-events: none;
-      color: #fbbf24;
-      font-weight: 700;
-      text-shadow: 0 0 8px rgba(251, 191, 36, 0.7);
-      opacity: 0;
-      transform: translate(-50%, -50%);
-      animation: pop-up 0.55s ease-out forwards;
-      font-size: 14px;
-    }
-
-    @keyframes pop-up {
-      0% {
-        opacity: 0;
-        transform: translate(-50%, -10%) scale(0.7);
-      }
-      25% {
-        opacity: 1;
-        transform: translate(-50%, -25%) scale(1.05);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -75%) scale(0.85);
-      }
-    }
-
-    .tiny-label {
-      position: absolute;
-      bottom: 4px;
-      right: 8px;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      opacity: 0.5;
-      color: #cbd5f5;
-    }
-
-    /* Prestige box */
-    .prestige-box {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      padding: 10px;
-      border-radius: 10px;
-      background: #020617;
-      border: 2px solid #4b5563;
-      image-rendering: pixelated;
-    }
-
-    .prestige-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-
-    .prestige-header span {
-      opacity: 0.8;
-    }
-
-    .prestige-values {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-size: 12px;
-    }
-
-    .prestige-pill {
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid #f97316;
-      background: rgba(30, 64, 175, 0.5);
-      color: #fed7aa;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-    }
-
-    .prestige-info {
-      font-size: 11px;
-      color: #9ca3af;
-      line-height: 1.4;
-    }
-
-    .prestige-info span {
-      color: #facc15;
-      font-weight: 600;
     }
 
     .prestige-button {
-      border-radius: 999px;
-      border: 1px solid rgba(248, 113, 113, 0.9);
-      background: rgba(127, 29, 29, 0.9);
-      color: #fee2e2;
-      font-size: 11px;
-      padding: 6px 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      cursor: pointer;
       width: 100%;
-    }
-
-    .prestige-button.disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .upgrades-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-      gap: 6px;
-    }
-
-    .tabs {
-      display: inline-flex;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      padding: 2px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-    }
-
-    .tab {
-      padding: 4px 10px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      border-radius: 999px;
+      padding: 12px;
+      background: linear-gradient(45deg, #facc15, #f4b400);
+      color: #000;
       border: none;
-      background: transparent;
-      color: #9ca3af;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-weight: bold;
       cursor: pointer;
+      transition: all 0.2s;
+      background-image: url('https://cdn.jsdelivr.net/gh/LostInTarot/PixelArt@main/items/gold.png');
+      background-size: 24px;
+      background-repeat: no-repeat;
+      background-position: 10px center;
+      padding-left: 40px;
     }
 
-    .tab.active {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(129, 140, 248, 0.15));
-      color: #e5e7eb;
+    .prestige-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(250, 204, 21, 0.4);
     }
 
-    .upgrades-list {
-      margin-top: 6px;
-      max-height: 420px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .upgrade {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 8px 9px;
-      margin-bottom: 8px;
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), rgba(15, 23, 42, 0.98));
-      cursor: pointer;
-      transition:
-        transform 0.08s ease,
-        border-color 0.08s ease,
-        box-shadow 0.08s ease,
-        background 0.08s ease;
-    }
-
-    .upgrade:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.9);
-      border-color: rgba(96, 165, 250, 0.9);
-      background: radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), rgba(15, 23, 42, 0.98));
-    }
-
-    .upgrade.disabled {
-      opacity: 0.4;
+    .prestige-button:disabled {
+      opacity: 0.5;
       cursor: not-allowed;
-      box-shadow: none;
-      border-color: rgba(55, 65, 81, 0.7);
-      background: rgba(15, 23, 42, 0.95);
     }
 
-    .upgrade-main {
+    .upgrades-panel h3, .auto-panel h3 {
+      color: #00ff88;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .upgrade-list, .auto-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .upgrade-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: rgba(0, 255, 136, 0.1);
+      border-radius: 6px;
+      border-left: 4px solid #00ff88;
     }
 
-    .upgrade-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .upgrade-icon {
+      width: 32px;
+      height: 32px;
+      image-rendering: pixelated;
     }
 
     .upgrade-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .upgrade-meta {
-      font-size: 11px;
-      color: #9ca3af;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .upgrade-meta span {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .pill {
-      padding: 2px 7px;
-      border-radius: 999px;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.96);
-      color: #e5e7eb;
-    }
-
-    .pill.highlight {
-      border-color: rgba(251, 191, 36, 0.9);
-      color: #fbbf24;
-    }
-
-    .pill.secondary {
-      border-color: rgba(94, 234, 212, 0.9);
-      color: #5eead4;
-    }
-
-    .pill.alt {
-      border-color: rgba(96, 165, 250, 0.9);
-      color: #93c5fd;
+      flex: 1;
+      margin-left: 10px;
+      font-weight: 500;
     }
 
     .upgrade-cost {
-      font-size: 12px;
-      font-weight: 600;
+      font-weight: bold;
       color: #facc15;
-      text-align: right;
     }
 
-    .upgrade-level {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .small-text {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 2px;
-    }
-
-    .footer {
-      margin-top: 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      color: #9ca3af;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .footer button {
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.96);
-      color: #e5e7eb;
-      font-size: 11px;
-      padding: 4px 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
+    .buy-btn {
+      background: #00ff88;
+      color: #000;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
       cursor: pointer;
+      font-weight: bold;
+      margin-left: 10px;
     }
 
-    .footer button.danger {
-      border-color: rgba(248, 113, 113, 0.9);
-      color: #fecaca;
+    .buy-btn:hover:not(:disabled) {
+      background: #00dd77;
     }
 
-    .footer button:hover {
-      background: rgba(30, 64, 175, 0.7);
+    .buy-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
-    .footer button.danger:hover {
-      background: rgba(127, 29, 29, 0.8);
+    .multiplier-display {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 1.3em;
+      color: #facc15;
+      font-weight: bold;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(20, 20, 40, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #00ff88;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
-  <div class="game">
-    <div class="panel">
-      <div class="panel-header">
-        <h1>Clickermania</h1>
-        <span class="pill alt">Idle / Prestige</span>
+  <div class="container">
+    <div class="panel main-clicker">
+      <div class="points-display" id="pointsDisplay">0</div>
+      <button class="click-button" id="clickButton">Click!</button>
+      <div class="stats">
+        <div>Per Click: <span id="clickValue">1</span></div>
+        <div>Per Sec: <span id="autoValue">0</span></div>
+        <div>Total: <span id="totalPoints">0</span></div>
       </div>
-
-      <div class="stat-row">
-        <div class="stat-badge">
-          <span class="stat-label">Total</span>
-          <span class="stat-value" id="totalDisplay">0</span>
-        </div>
-        <div class="stat-badge">
-          <span class="stat-label">Per Click</span>
-          <span class="stat-value" id="perClickDisplay">1</span>
-        </div>
-        <div class="stat-badge">
-          <span class="stat-label">Per Second</span>
-          <span class="stat-value" id="perSecondDisplay">0</span>
-        </div>
-      </div>
-
-      <div class="big-score">
-        Points: <span id="scoreDisplay">0</span>
-      </div>
-
-      <div class="click-section">
-        <div class="click-area">
-          <div class="pixel-frame">
-            <div class="pixel-icon pixel-icon-main"></div>
-            <button id="clickButton" class="click-button">
-              CLICK
-            </button>
-          </div>
-          <div class="click-hint">
-            Tap the button or press <span>Space / Enter</span> to farm points.
-          </div>
-
-          <div class="fx-container" id="fxContainer">
-            <span class="tiny-label">Visual feed</span>
-          </div>
-        </div>
-
-        <div class="prestige-box">
-          <div class="prestige-header">
-            <span>Prestige</span>
-            <div class="pixel-icon pixel-icon-prestige"></div>
-          </div>
-          <div class="prestige-values">
-            <span class="prestige-pill">
-              Points: <span id="prestigePointsDisplay">0</span>
-            </span>
-            <span class="prestige-pill">
-              Mult: <span id="prestigeMultDisplay">x1.00</span>
-            </span>
-          </div>
-          <div class="prestige-info">
-            Reset all points and upgrades for
-            <span id="prestigeGainDisplay">0</span> prestige.  
-            Each prestige point gives <span>+10%</span> permanent boost to all income.
-          </div>
-          <button id="prestigeButton" class="prestige-button disabled">
-            Prestige (need more points)
-          </button>
-        </div>
-      </div>
-
-      <div class="footer">
-        <span id="statusText">Game saved automatically.</span>
-        <div>
-          <button id="saveButton">Save</button>
-          <button id="resetButton" class="danger">Reset</button>
-        </div>
+      <div class="prestige-section">
+        <div>Prestige Level: <span id="prestigeLevel">0</span> (x<span id="prestigeMultiplier">1.00</span>)</div>
+        <button class="prestige-button" id="prestigeButton" disabled>Prestige (0)</button>
       </div>
     </div>
 
-    <div class="panel">
-      <div class="upgrades-header">
-        <h2 style="font-size:15px; text-transform:uppercase; letter-spacing:0.08em;">Upgrades</h2>
-        <div class="tabs">
-          <button class="tab active" data-tab="click">Click</button>
-          <button class="tab" data-tab="auto">Auto</button>
-        </div>
-      </div>
-      <div class="small-text">
-        Buy helpers and power-ups to grow your points even while you are not clicking.
-      </div>
+    <div class="panel" id="upgradesPanel">
+      <h3>Upgrades</h3>
+      <div class="upgrade-list" id="upgradeList"></div>
+    </div>
 
-      <div class="upgrades-list" id="upgradesList"></div>
+    <div class="panel" id="autoPanel">
+      <h3>Auto Clickers</h3>
+      <div class="auto-list" id="autoList"></div>
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = "button_clicker_prestige_v1";
-
+    // Game state
     const state = {
       points: 0,
       totalPoints: 0,
-      perClickBase: 1,
-      perClickMultiplier: 1,
-      autoPerSecond: 0,
-      prestigePoints: 0,
-      prestigeMult: 1,
+      clickValue: 1,
+      autoValue: 0,
+      prestigeLevel: 0,
+      prestigeMultiplier: 1.0,
       upgrades: {},
-      lastTick: performance.now()
+      autos: {},
+      lastTick: 0
     };
 
-    const upgradeDefs = [
-      {
-        id: "betterClick",
-        tab: "click",
-        name: "Better Click",
-        description: "+1 point per click.",
-        baseCost: 25,
-        costMult: 1.15,
-        type: "perClickBase",
-        amount: 1,
-        tags: ["Click Power"]
-      },
-      {
-        id: "superClick",
-        tab: "click",
-        name: "Super Click",
-        description: "Each level multiplies click value by 25%.",
-        baseCost: 200,
-        costMult: 1.22,
-        type: "perClickMultiplier",
-        amount: 0.25,
-        tags: ["Multiplier"]
-      },
-      {
-        id: "burstClick",
-        tab: "click",
-        name: "Burst Stack",
-        description: "Stackable +5 base per click.",
-        baseCost: 800,
-        costMult: 1.26,
-        type: "perClickBase",
-        amount: 5,
-        tags: ["Stackable", "Late Game"]
-      },
-      {
-        id: "tinyBot",
-        tab: "auto",
-        name: "Tiny Bot",
-        description: "Clicks for 0.2 points per second.",
-        baseCost: 50,
-        costMult: 1.14,
-        type: "autoPerSecond",
-        amount: 0.2,
-        tags: ["Auto Clicker"]
-      },
-      {
-        id: "clickBuddy",
-        tab: "auto",
-        name: "Click Buddy",
-        description: "Friendly helper adds 1 point / sec.",
-        baseCost: 250,
-        costMult: 1.18,
-        type: "autoPerSecond",
-        amount: 1,
-        tags: ["Auto Clicker"]
-      },
-      {
-        id: "laserRig",
-        tab: "auto",
-        name: "Laser Rig",
-        description: "High-end rig adds 6 points / sec.",
-        baseCost: 1200,
-        costMult: 1.25,
-        type: "autoPerSecond",
-        amount: 6,
-        tags: ["Late Game"]
-      },
-      {
-        id: "overclock",
-        tab: "auto",
-        name: "Overclock",
-        description: "+20% to all auto income.",
-        baseCost: 4500,
-        costMult: 1.33,
-        type: "autoMultiplier",
-        amount: 0.2,
-        tags: ["Multiplier", "Synergy"]
-      }
+    // Upgrade & Auto definitions
+    const upgrades = [
+      { id: 'multi1', name: 'Double Click', cost: 10, effect: () => state.clickValue *= 2, icon: 'https://cdn.jsdelivr.net/gh/LostInTarot/PixelArt@main/items/sword.png' },
+      { id: 'multi2', name: 'Triple Click', cost: 50, effect: () => state.clickValue *= 3, icon: 'https://cdn.jsdelivr.net/gh/LostInTarot/PixelArt@main/items/shield.png' },
+      { id: 'multi3', name: 'Mega Click', cost: 200, effect: () => state.clickValue *= 5, icon: 'https://cdn.jsdelivr.net/gh/LostInTarot/PixelArt@main/items/heart.png' }
     ];
 
-    const upgradesContainer = document.getElementById("upgradesList");
-    const scoreDisplay = document.getElementById("scoreDisplay");
-    const totalDisplay = document.getElementById("totalDisplay");
-    const perClickDisplay = document.getElementById("perClickDisplay");
-    const perSecondDisplay = document.getElementById("perSecondDisplay");
-    const prestigePointsDisplay = document.getElementById("prestigePointsDisplay");
-    const prestigeMultDisplay = document.getElementById("prestigeMultDisplay");
-    const prestigeGainDisplay = document.getElementById("prestigeGainDisplay");
-    const clickButton = document.getElementById("clickButton");
-    const fxContainer = document.getElementById("fxContainer");
-    const statusText = document.getElementById("statusText");
-    const saveButton = document.getElementById("saveButton");
-    const resetButton = document.getElementById("resetButton");
-    const prestigeButton = document.getElementById("prestigeButton");
-    const tabs = Array.from(document.querySelectorAll(".tab"));
+    const autos = [
+      { id: 'cursor1', name: 'Cursor (1/sec)', cost: 20, effect: () => state.autoValue += 1, icon: 'https://cdn.jsdelivr.net/gh/LostInTarot/PixelArt@main/items/mouse.png' },
+      { id: 'cursor2', name: 'Fast Cursor (5/sec)', cost: 100, effect: () => state.autoValue += 5, icon: 'https://cdn.jsdelivr.net/gh/LostInTarot/PixelArt@main/items/mouse.png' },
+      { id: 'auto3', name: 'Robot (10/sec)', cost: 500, effect: () => state.autoValue += 10, icon: 'https://cdn.jsdelivr.net/gh/LostInTarot/PixelArt@main/items/robot.png' }
+    ];
 
-    function formatNumber(n) {
-      if (n >= 1e9) return (n / 1e9).toFixed(2) + "B";
-      if (n >= 1e6) return (n / 1e6).toFixed(2) + "M";
-      if (n >= 1e3) return (n / 1e3).toFixed(2) + "K";
-      return n.toFixed(0);
+    // DOM elements
+    const elements = {
+      pointsDisplay: document.getElementById('pointsDisplay'),
+      clickButton: document.getElementById('clickButton'),
+      clickValue: document.getElementById('clickValue'),
+      autoValue: document.getElementById('autoValue'),
+      totalPoints: document.getElementById('totalPoints'),
+      prestigeLevel: document.getElementById('prestigeLevel'),
+      prestigeMultiplier: document.getElementById('prestigeMultiplier'),
+      prestigeButton: document.getElementById('prestigeButton'),
+      upgradeList: document.getElementById('upgradeList'),
+      autoList: document.getElementById('autoList')
+    };
+
+    // Functions
+    function updateDisplay() {
+      elements.pointsDisplay.textContent = Math.floor(state.points).toLocaleString();
+      elements.clickValue.textContent = state.clickValue.toLocaleString();
+      elements.autoValue.textContent = state.autoValue.toLocaleString();
+      elements.totalPoints.textContent = state.totalPoints.toLocaleString();
+      elements.prestigeLevel.textContent = state.prestigeLevel;
+      elements.prestigeMultiplier.textContent = state.prestigeMultiplier.toFixed(2);
+
+      const prestigeGain = Math.floor(state.totalPoints / 5000);
+      elements.prestigeButton.textContent = `Prestige +${prestigeGain} (Reset for x${(1 + prestigeGain * 0.1).toFixed(2)})`;
+      elements.prestigeButton.disabled = prestigeGain === 0;
+
+      updateUpgradeUI();
     }
 
-    function formatSmall(n) {
-      if (n >= 100) return n.toFixed(0);
-      if (n >= 10) return n.toFixed(1);
-      return n.toFixed(2);
-    }
-
-    function getUpgradeLevel(id) {
-      return state.upgrades[id] || 0;
-    }
-
-    function getUpgradeCost(def) {
-      const level = getUpgradeLevel(def.id);
-      return def.baseCost * Math.pow(def.costMult, level);
-    }
-
-    function computeDerived() {
-      let prestigeMultiplier = 1 + state.prestigePoints * 0.1; // +10% per prestige point [web:24][web:31]
-      let perClick = state.perClickBase;
-      perClick *= state.perClickMultiplier;
-      perClick *= prestigeMultiplier;
-
-      let auto = state.autoPerSecond;
-      let autoMult = 1;
-      for (const def of upgradeDefs) {
-        const level = getUpgradeLevel(def.id);
-        if (def.type === "autoMultiplier" && level > 0) {
-          autoMult *= 1 + def.amount * level;
-        }
-      }
-      auto *= autoMult;
-      auto *= prestigeMultiplier;
-
-      return { perClick, autoPerSecond: auto, prestigeMultiplier };
-    }
-
-    function calculatePrestigeGain() {
-      const threshold = 10000;
-      if (state.totalPoints < threshold) return 0;
-      const base = (state.totalPoints - threshold) / threshold;
-      const gain = Math.floor(Math.pow(base, 0.5)); // gentle curve [web:34]
-      return gain > 0 ? gain : 0;
-    }
-
-    function createUpgradeElement(def) {
-      const el = document.createElement("div");
-      el.className = "upgrade";
-      el.dataset.id = def.id;
-      el.dataset.tab = def.tab;
-
-      const main = document.createElement("div");
-      main.className = "upgrade-main";
-
-      const left = document.createElement("div");
-      left.className = "upgrade-left";
-
-      const icon = document.createElement("div");
-      icon.className = "pixel-icon " + (def.tab === "click" ? "pixel-icon-upgrade" : "pixel-icon-auto");
-
-      const textWrap = document.createElement("div");
-      const name = document.createElement("div");
-      name.className = "upgrade-name";
-      name.textContent = def.name;
-
-      const level = document.createElement("div");
-      level.className = "upgrade-level";
-      level.textContent = "Level 0";
-
-      textWrap.appendChild(name);
-      textWrap.appendChild(level);
-
-      left.appendChild(icon);
-      left.appendChild(textWrap);
-
-      const right = document.createElement("div");
-      right.style.textAlign = "right";
-
-      const cost = document.createElement("div");
-      cost.className = "upgrade-cost";
-      cost.textContent = "Cost: 0";
-
-      const pillWrap = document.createElement("div");
-      pillWrap.className = "upgrade-meta";
-
-      def.tags.forEach((tag, i) => {
-        const pill = document.createElement("span");
-        pill.className = "pill" + (i === 0 ? " highlight" : " secondary");
-        pill.textContent = tag;
-        pillWrap.appendChild(pill);
-      });
-
-      right.appendChild(cost);
-      right.appendChild(pillWrap);
-
-      main.appendChild(left);
-      main.appendChild(right);
-
-      const desc = document.createElement("div");
-      desc.className = "small-text";
-      desc.textContent = def.description;
-
-      el.appendChild(main);
-      el.appendChild(desc);
-
-      el.addEventListener("click", () => tryBuyUpgrade(def.id));
-
-      return el;
-    }
-
-    const upgradeElements = {};
     function buildUpgradeUI() {
-      upgradesContainer.innerHTML = "";
-      upgradeDefs.forEach(def => {
-        const el = createUpgradeElement(def);
-        upgradesContainer.appendChild(el);
-        upgradeElements[def.id] = el;
+      upgrades.forEach(upgrade => {
+        const div = document.createElement('div');
+        div.className = 'upgrade-item';
+        div.innerHTML = `
+          <img src="${upgrade.icon}" alt="${upgrade.name}" class="upgrade-icon">
+          <span class="upgrade-name">${upgrade.name}</span>
+          <span class="upgrade-cost">Cost: ${upgrade.cost.toLocaleString()}</span>
+          <button class="buy-btn" onclick="buyUpgrade('${upgrade.id}')">Buy</button>
+        `;
+        elements.upgradeList.appendChild(div);
       });
-    }
 
-    function updatePrestigeUI() {
-      const gain = calculatePrestigeGain();
-      const { prestigeMultiplier } = computeDerived();
-      prestigePointsDisplay.textContent = formatNumber(state.prestigePoints);
-      prestigeMultDisplay.textContent = "x" + prestigeMultiplier.toFixed(2);
-      prestigeGainDisplay.textContent = gain.toString();
-
-      if (gain > 0) {
-        prestigeButton.classList.remove("disabled");
-        prestigeButton.textContent = "Prestige +" + gain + " (reset run)";
-      } else {
-        prestigeButton.classList.add("disabled");
-        prestigeButton.textContent = "Prestige (need more points)";
-      }
+      autos.forEach(auto => {
+        const div = document.createElement('div');
+        div.className = 'upgrade-item';
+        div.innerHTML = `
+          <img src="${auto.icon}" alt="${auto.name}" class="upgrade-icon">
+          <span class="upgrade-name">${auto.name}</span>
+          <span class="upgrade-cost">Cost: ${auto.cost.toLocaleString()}</span>
+          <button class="buy-btn" onclick="buyAuto('${auto.id}')">Buy</button>
+        `;
+        elements.autoList.appendChild(div);
+      });
     }
 
     function updateUpgradeUI() {
-      const derived = computeDerived();
-      upgradeDefs.forEach(def => {
-        const el = upgradeElements[def.id];
-        if (!el) return;
-        const level = getUpgradeLevel(def.id);
-        const cost = getUpgradeCost(def);
-        const costEl = el.querySelector(".upgrade-cost");
-        const levelEl = el.querySelector(".upgrade-level");
-
-        costEl.textContent = "Cost: " + formatNumber(cost);
-        levelEl.textContent = "Level " + level;
-
-        if (state.points >= cost) {
-          el.classList.remove("disabled");
-        } else {
-          el.classList.add("disabled");
-        }
+      upgrades.forEach((upgrade, i) => {
+        const item = elements.upgradeList.children[i];
+        const btn = item.querySelector('.buy-btn');
+        const costEl = item.querySelector('.upgrade-cost');
+        costEl.textContent = `Cost: ${upgrade.cost.toLocaleString()}`;
+        btn.disabled = state.points < upgrade.cost;
       });
 
-      scoreDisplay.textContent = formatNumber(state.points);
-      totalDisplay.textContent = formatNumber(state.totalPoints);
-      perClickDisplay.textContent = formatSmall(derived.perClick);
-      perSecondDisplay.textContent = formatSmall(derived.autoPerSecond);
-
-      updatePrestigeUI();
+      autos.forEach((auto, i) => {
+        const item = elements.autoList.children[i];
+        const btn = item.querySelector('.buy-btn');
+        const costEl = item.querySelector('.upgrade-cost');
+        costEl.textContent = `Cost: ${auto.cost.toLocaleString()}`;
+        btn.disabled = state.points < auto.cost;
+      });
     }
 
-    function addPoints(amount) {
-      state.points += amount;
-      state.totalPoints += amount;
-    }
-
-    function spawnClickFx(amount) {
-      const rect = fxContainer.getBoundingClientRect();
-      const x = rect.width * (0.3 + Math.random() * 0.4);
-      const y = rect.height * (0.45 + Math.random() * 0.2);
-
-      const el = document.createElement("div");
-      el.className = "fx-click";
-      el.style.left = x + "px";
-      el.style.top = y + "px";
-      el.textContent = "+" + formatSmall(amount);
-
-      fxContainer.appendChild(el);
-      setTimeout(() => {
-        fxContainer.removeChild(el);
-      }, 550);
-    }
-
-    function doClick() {
-      const { perClick } = computeDerived();
-      addPoints(perClick);
-      spawnClickFx(perClick);
-      updateUpgradeUI();
-      showStatus("Clicked for " + formatSmall(perClick) + " points.");
-    }
-
-    function tryBuyUpgrade(id) {
-      const def = upgradeDefs.find(u => u.id === id);
-      if (!def) return;
-      const cost = getUpgradeCost(def);
-      if (state.points < cost) {
-        flashStatus("Not enough points.", true);
-        return;
+    window.buyUpgrade = function(id) {
+      const upgrade = upgrades.find(u => u.id === id);
+      if (state.points >= upgrade.cost) {
+        state.points -= upgrade.cost;
+        upgrade.effect();
+        upgrade.cost = Math.floor(upgrade.cost * 1.5);
+        updateDisplay();
       }
-      state.points -= cost;
+    };
 
-      const prevLevel = getUpgradeLevel(id);
-      state.upgrades[id] = prevLevel + 1;
-
-      if (def.type === "perClickBase") {
-        state.perClickBase += def.amount;
-      } else if (def.type === "perClickMultiplier") {
-        state.perClickMultiplier *= 1 + def.amount;
-      } else if (def.type === "autoPerSecond") {
-        state.autoPerSecond += def.amount;
+    window.buyAuto = function(id) {
+      const auto = autos.find(a => a.id === id);
+      if (state.points >= auto.cost) {
+        state.points -= auto.cost;
+        auto.effect();
+        auto.cost = Math.floor(auto.cost * 1.5);
+        updateDisplay();
       }
+    };
 
-      updateUpgradeUI();
-      flashStatus("Purchased " + def.name + "!", false);
+    function calculatePrestigeGain() {
+      return Math.floor(state.totalPoints / 5000);
     }
 
     function performPrestige() {
       const gain = calculatePrestigeGain();
-      if (gain <= 0) {
-        flashStatus("Need more total points to prestige.", true);
-        return;
-      }
-      if (!confirm("Prestige now and reset your run for +" + gain + " prestige points?")) {
-        return;
-      }
-      state.prestigePoints += gain;
-
-      state.points = 0;
-      state.totalPoints = 0;
-      state.perClickBase = 1;
-      state.perClickMultiplier = 1;
-      state.autoPerSecond = 0;
-      state.upgrades = {};
-
-      updateUpgradeUI();
-      flashStatus("Prestiged! Permanent boost increased.", false);
-    }
-
-    function gameLoop(now) {
-      const deltaMs = now - state.lastTick;
-      state.lastTick = now;
-      const deltaSeconds = deltaMs / 1000;
-
-      const { autoPerSecond } = computeDerived();
-      if (autoPerSecond > 0 && deltaSeconds > 0) {
-        const gain = autoPerSecond * deltaSeconds;
-        addPoints(gain);
-      }
-
-      updateUpgradeUI();
-      requestAnimationFrame(gameLoop);
-    }
-
-    function saveGame() {
-      try {
-        const payload = {
-          points: state.points,
-          totalPoints: state.totalPoints,
-          perClickBase: state.perClickBase,
-          perClickMultiplier: state.perClickMultiplier,
-          autoPerSecond: state.autoPerSecond,
-          prestigePoints: state.prestigePoints,
-          upgrades: state.upgrades
-        };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-        flashStatus("Game saved.", false);
-      } catch (e) {
-        flashStatus("Save failed (storage blocked).", true);
-      }
-    }
-
-    function loadGame() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        const data = JSON.parse(raw);
-        if (!data) return;
-        state.points = data.points ?? state.points;
-        state.totalPoints = data.totalPoints ?? state.totalPoints;
-        state.perClickBase = data.perClickBase ?? state.perClickBase;
-        state.perClickMultiplier = data.perClickMultiplier ?? state.perClickMultiplier;
-        state.autoPerSecond = data.autoPerSecond ?? state.autoPerSecond;
-        state.prestigePoints = data.prestigePoints ?? state.prestigePoints;
-        state.upgrades = data.upgrades ?? state.upgrades;
-        flashStatus("Save loaded.", false);
-      } catch (e) {
-        flashStatus("Corrupted save ignored.", true);
+      if (gain > 0) {
+        state.prestigeLevel += gain;
+        state.prestigeMultiplier *= (1 + gain * 0.1);
+        resetGame();
+        updateDisplay();
       }
     }
 
     function resetGame() {
-      if (!confirm("Reset ALL progress (including prestige)?")) return;
       state.points = 0;
-      state.totalPoints = 0;
-      state.perClickBase = 1;
-      state.perClickMultiplier = 1;
-      state.autoPerSecond = 0;
-      state.prestigePoints = 0;
-      state.upgrades = {};
-      localStorage.removeItem(STORAGE_KEY);
-      updateUpgradeUI();
-      flashStatus("Progress reset.", false);
+      state.clickValue = 1 * state.prestigeMultiplier;
+      state.autoValue = 0 * state.prestigeMultiplier;
     }
 
-    let statusTimeout = null;
-    function showStatus(text) {
-      statusText.textContent = text;
+    function gameLoop(time) {
+      const delta = (time - state.lastTick) / 1000;
+      state.points += state.autoValue * delta * state.prestigeMultiplier;
+      state.totalPoints += state.autoValue * delta;
+      state.lastTick = time;
+      updateDisplay();
+      requestAnimationFrame(gameLoop);
     }
 
-    function flashStatus(text, isError) {
-      statusText.textContent = text;
-      statusText.style.color = isError ? "#fecaca" : "#a5f3fc";
-      if (statusTimeout) clearTimeout(statusTimeout);
-      statusTimeout = setTimeout(() => {
-        statusText.textContent = "Game saved automatically.";
-        statusText.style.color = "#9ca3af";
-      }, 2000);
+    function saveGame() {
+      localStorage.setItem('clickerSave', JSON.stringify(state));
     }
 
-    clickButton.addEventListener("click", () => {
-      doClick();
-    });
-
-    document.addEventListener("keydown", e => {
-      if (e.repeat) return;
-      if (e.code === "Space" || e.code === "Enter") {
-        e.preventDefault();
-        doClick();
+    function loadGame() {
+      const save = localStorage.getItem('clickerSave');
+      if (save) {
+        Object.assign(state, JSON.parse(save));
+        updateDisplay();
       }
+    }
+
+    // Event listeners
+    elements.clickButton.addEventListener('click', () => {
+      state.points += state.clickValue * state.prestigeMultiplier;
+      state.totalPoints += state.clickValue * state.prestigeMultiplier;
+      updateDisplay();
     });
 
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        const selected = tab.dataset.tab;
-        tabs.forEach(t => t.classList.toggle("active", t === tab));
-        Object.values(upgradeElements).forEach(el => {
-          el.style.display = el.dataset.tab === selected ? "block" : "none";
-        });
-      });
-    });
+    elements.prestigeButton.addEventListener('click', performPrestige);
 
-    saveButton.addEventListener("click", saveGame);
-    resetButton.addEventListener("click", resetGame);
-    prestigeButton.addEventListener("click", performPrestige);
-
-    loadGame();
+    // Init
     buildUpgradeUI();
-    updateUpgradeUI();
+    updateDisplay();
+    loadGame();
     requestAnimationFrame(time => {
       state.lastTick = time;
       requestAnimationFrame(gameLoop);
     });
 
-    window.addEventListener("beforeunload", saveGame);
+    window.addEventListener('beforeunload', saveGame);
   </script>
 </body>
-              </html>
+</html>
